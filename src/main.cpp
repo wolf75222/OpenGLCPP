@@ -180,6 +180,8 @@ int main() {
         // Dessinez les axes et le quadrillage
         Renderer::DrawAxis(5.0f);
         //Renderer::DrawGrid(10.0f, 10);
+        
+        Renderer::DrawSphere(1.0f, 0.0f, 0.0f, 0.0f, 100, 1.0f, 1.0f, 1.0f);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

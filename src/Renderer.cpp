@@ -3,6 +3,34 @@
 #include <vector>
 #include "Shader.h"
 #include <iostream>
+#include <cmath>
+
+
+void Renderer::DrawSphere(float radius, float x, float y, float z, int subdivisions, float red, float green, float blue) {
+    glColor3f(red, green, blue); // Définir la couleur pour la sphère
+
+    for (int i = 0; i <= subdivisions; ++i) {
+        float lat0 = M_PI * (-0.5 + (float)(i - 1) / subdivisions);
+        float z0 = sin(lat0);
+        float zr0 = cos(lat0);
+
+        float lat1 = M_PI * (-0.5 + (float)i / subdivisions);
+        float z1 = sin(lat1);
+        float zr1 = cos(lat1);
+
+        glBegin(GL_TRIANGLE_STRIP);
+        for (int j = 0; j <= subdivisions; ++j) {
+            float lng = 2 * M_PI * (float)(j - 1) / subdivisions;
+            float lx = cos(lng);
+            float ly = sin(lng);
+
+            glVertex3f(lx * zr0 + x, ly * zr0 + y, z0 + z);
+            glVertex3f(lx * zr1 + x, ly * zr1 + y, z1 + z);
+        }
+        glEnd();
+    }
+}
+
 
 
 unsigned int gridVAO, gridVBO;
@@ -26,9 +54,11 @@ void Renderer::DrawAxis(float size) {
     glVertex3f(0, 0, 0);
     glVertex3f(0, 0, size);
     
-    // Couleur 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // Réinitialiser la couleur à blanc
+    glColor3f(1.0, 1.0, 1.0);
+    
+    
     glEnd();
 
     glLineWidth(1.0f); // Remettre l'épaisseur des lignes à la valeur par défaut
@@ -112,4 +142,3 @@ void Renderer::DrawGrid(Shader& shader) {
     
     glDisableVertexAttribArray(0);
 }
-
