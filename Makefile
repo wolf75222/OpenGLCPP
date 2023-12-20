@@ -1,45 +1,57 @@
-# Emplacements de base pour les bibliothèques
-BASE_PATH = /opt/homebrew/opt
-GLEW_PATH = $(BASE_PATH)/glew
-GLFW_PATH = $(BASE_PATH)/glfw
-GLM_PATH = $(BASE_PATH)/glm
+# Detecting the operating system
+UNAME_S := $(shell uname -s)
 
-# Compilateur
-CC = g++
+# default paths for macOS
+BASE_PATH := /opt/homebrew/opt
+LIB_FLAG := -framework OpenGL
 
-# Drapeaux du compilateur
-CFLAGS = -Wall -std=c++11
+# Adjust for Arch Linux
+ifeq ($(UNAME_S),Linux)
+    BASE_PATH := /usr
+    LIB_FLAG := -lGL
+endif
 
-# Emplacement des en-têtes
-INCLUDES = -I$(GLEW_PATH)/include -I$(GLFW_PATH)/include -I$(GLM_PATH)/include
+# Library paths
+GLEW_PATH := $(BASE_PATH)/glew
+GLFW_PATH := $(BASE_PATH)/glfw
+GLM_PATH := $(BASE_PATH)/glm
 
-# Emplacement des bibliothèques
-LIBS = -L$(GLEW_PATH)/lib -L$(GLFW_PATH)/lib
+# Compiler
+CC := g++
 
-# Liens des bibliothèques
-LFLAGS = -lglfw -lGLEW -framework OpenGL
+# Compiler flags
+CFLAGS := -Wall -std=c++11
 
-# Fichiers source
-SRCS = src/main.cpp src/Camera.cpp src/Renderer.cpp src/Shader.cpp
+# Header locations
+INCLUDES := -I$(GLEW_PATH)/include -I$(GLFW_PATH)/include -I$(GLM_PATH)/include
 
-# Fichiers objets, placés dans le dossier build
-OBJS = $(SRCS:src/%.cpp=build/%.o)
+# Library locations
+LIBS := -L$(GLEW_PATH)/lib -L$(GLFW_PATH)/lib
 
-# Nom du programme
-TARGET = build/myOpenGLApp
+# Library links
+LFLAGS := -lglfw -lGLEW $(LIB_FLAG)
 
-# Règle principale
+# Source files
+SRCS := src/main.cpp src/Camera.cpp src/Renderer.cpp src/Shader.cpp
+
+# Object files, placed in the build folder
+OBJS := $(SRCS:src/%.cpp=build/%.o)
+
+# Program name
+TARGET := build/myOpenGLApp
+
+# Main rule
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARGET) $(OBJS) $(LIBS) $(LFLAGS)
 
-# Créer le dossier build si nécessaire
+# Create build folder if necessary
 build/%.o: src/%.cpp
 	mkdir -p build
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Règle pour nettoyer
+# Clean rule
 clean:
 	$(RM) -r build
 
