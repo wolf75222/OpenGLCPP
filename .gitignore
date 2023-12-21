@@ -1,5 +1,7 @@
 # Fichier .gitignore pour OpenGLCPP
 
+.DS_Store
+
 # Ignorer les fichiers .DS_Store dans tous les dossiers et sous-dossiers
 **/.DS_Store
 
