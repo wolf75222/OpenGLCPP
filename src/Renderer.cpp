@@ -5,6 +5,53 @@
 #include <iostream>
 #include <cmath>
 
+void Renderer::DrawCube(float sideLength, float x, float y, float z, float red, float green, float blue) {
+    glColor3f(red, green, blue); // Définir la couleur pour le cube
+
+    float halfSide = sideLength / 2.0f;
+
+    // Dessiner chaque face du cube
+    glBegin(GL_QUADS);
+
+    // Face avant
+    glVertex3f(x - halfSide, y - halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y - halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y + halfSide, z + halfSide);
+    glVertex3f(x - halfSide, y + halfSide, z + halfSide);
+
+    // Face arrière
+    glVertex3f(x - halfSide, y - halfSide, z - halfSide);
+    glVertex3f(x + halfSide, y - halfSide, z - halfSide);
+    glVertex3f(x + halfSide, y + halfSide, z - halfSide);
+    glVertex3f(x - halfSide, y + halfSide, z - halfSide);
+
+    // Face gauche
+    glVertex3f(x - halfSide, y - halfSide, z - halfSide);
+    glVertex3f(x - halfSide, y - halfSide, z + halfSide);
+    glVertex3f(x - halfSide, y + halfSide, z + halfSide);
+    glVertex3f(x - halfSide, y + halfSide, z - halfSide);
+
+    // Face droite
+    glVertex3f(x + halfSide, y - halfSide, z - halfSide);
+    glVertex3f(x + halfSide, y - halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y + halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y + halfSide, z - halfSide);
+
+    // Face du dessus
+    glVertex3f(x - halfSide, y + halfSide, z - halfSide);
+    glVertex3f(x - halfSide, y + halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y + halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y + halfSide, z - halfSide);
+
+    // Face du dessous
+    glVertex3f(x - halfSide, y - halfSide, z - halfSide);
+    glVertex3f(x - halfSide, y - halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y - halfSide, z + halfSide);
+    glVertex3f(x + halfSide, y - halfSide, z - halfSide);
+
+    glEnd();
+}
+
 
 void Renderer::DrawSphere(float radius, float x, float y, float z, int subdivisions, float red, float green, float blue) {
     glColor3f(red, green, blue); // Définir la couleur pour la sphère
@@ -30,6 +77,7 @@ void Renderer::DrawSphere(float radius, float x, float y, float z, int subdivisi
         glEnd();
     }
 }
+
 
 
 

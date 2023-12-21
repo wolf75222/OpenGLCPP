@@ -181,7 +181,9 @@ int main() {
         Renderer::DrawAxis(5.0f);
         //Renderer::DrawGrid(10.0f, 10);
         
-        Renderer::DrawSphere(1.0f, 0.0f, 0.0f, 0.0f, 5, 1.0f, 1.0f, 1.0f);
+        Renderer::DrawSphere(1.0f, 0.0f, 0.0f, 0.0f, 20, 1.0f, 1.0f, 1.0f);
+
+        //Renderer::DrawCube(1.0f, 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
