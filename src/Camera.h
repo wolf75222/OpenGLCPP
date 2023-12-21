@@ -24,7 +24,7 @@ public:
     void Rotate(float angleDelta);
     void ToggleAutoRotate();
     void IncreaseSpeed();
-
+    glm::vec3 GetPosition() const;
 
 
 private:

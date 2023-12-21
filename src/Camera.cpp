@@ -12,6 +12,9 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     updateCameraVectors();
 }
 
+glm::vec3 Camera::GetPosition() const {
+    return Position; // Assurez-vous que vous avez un membre 'position' dans votre classe Camera
+}
 
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch) {

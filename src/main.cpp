@@ -110,7 +110,6 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
-    // Configuration initiale de la caméra (si nécessaire)
     
     // Création des shaders
    
@@ -131,11 +130,11 @@ int main() {
 
     printf("Shader reloaded\n");
 
-    Renderer::InitGrid(15.0f, 15);
+    // Initialisation de la grille...
+    Renderer::InitGrid();
 
     printf("Grid loaded\n");
 
-    // Avant la boucle de rendu
     glm::mat4 model = glm::mat4(1.0f); // Crée une matrice de modèle identité
 
     printf("Starting loop\n");
@@ -170,14 +169,11 @@ int main() {
         gridShader.setMat4("projection", projection);
         gridShader.setMat4("view", view);
         gridShader.setMat4("model", model);
-
+        gridShader.setVec3("cameraPos", camera.GetPosition());
 
         Renderer::DrawGrid(gridShader);
 
 
-
-        // Utilisez les shaders ici
-        // Dessinez les axes et le quadrillage
         Renderer::DrawAxis(5.0f);
         //Renderer::DrawGrid(10.0f, 10);
         

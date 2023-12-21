@@ -81,7 +81,6 @@ void Renderer::DrawSphere(float radius, float x, float y, float z, int subdivisi
 
 
 
-unsigned int gridVAO, gridVBO;
 
 void Renderer::DrawAxis(float size) {
     glLineWidth(3.0f); // Augmenter l'épaisseur des lignes pour les axes
@@ -128,65 +127,39 @@ void Renderer::DrawGrid(float size, int numberOfLines) {
 }
 */
 
-void Renderer::InitGrid(float size, int numberOfLines) {
-    std::vector<float> vertices;
-
-    // Calcule la distance entre chaque ligne
-    float step = size / numberOfLines;
-    float halfSize = size / 2.0f;
-
-    printf("Initializing Grid...\n");
-    printf("Step: %f, HalfSize: %f\n", step, halfSize);
-
-    for (int i = 0; i <= numberOfLines; ++i) {
-        float coord = -halfSize + i * step;
 
 
-        // Ligne horizontale
-        vertices.push_back(-halfSize); // x1
-        vertices.push_back(0.0f);      // y1
-        vertices.push_back(coord);     // z1
-
-        vertices.push_back(halfSize);  // x2
-        vertices.push_back(0.0f);      // y2
-        vertices.push_back(coord);     // z2
+GLuint gridVBO; // Global ou membre de la classe Renderer
 
 
-        // Ligne verticale
-        vertices.push_back(coord);     // x1
-        vertices.push_back(0.0f);      // y1
-        vertices.push_back(-halfSize); // z1
-
-        vertices.push_back(coord);     // x2
-        vertices.push_back(0.0f);      // y2
-        vertices.push_back(halfSize);  // z2
-
-    }
-
-    printf("Total vertices: %lu\n", vertices.size());
-
-    // Version 
-    printf("OpenGL version: %s\n", glGetString(GL_VERSION));
+// Initialise le VBO pour un quadrilatère plein écran
+void Renderer::InitGrid() {
+    float quadVertices[] = {
+        // Coordonnées pour un quadrilatère plein écran
+        -1.0f, -1.0f, 0.0f,
+         1.0f, -1.0f, 0.0f,
+        -1.0f,  1.0f, 0.0f,
+         1.0f,  1.0f, 0.0f,
+    };
 
     glGenBuffers(1, &gridVBO);
     glBindBuffer(GL_ARRAY_BUFFER, gridVBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-
-    printf("Grid Initialized.\n");
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0); // Débinder le VBO
 }
 
+// Dessine le quadrilatère plein écran avec le shader de grille
 void Renderer::DrawGrid(Shader& shader) {
     shader.use();
-
     glBindBuffer(GL_ARRAY_BUFFER, gridVBO);
-    
-    // Configurez les attributs de sommet ici
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
 
-    int nombreDePoints = 100;
+    GLint posAttrib = glGetAttribLocation(shader.ID, "aPos");
+    glEnableVertexAttribArray(posAttrib);
+    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glDrawArrays(GL_LINES, 0, nombreDePoints);
-    
-    glDisableVertexAttribArray(0);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+    glDisableVertexAttribArray(posAttrib);
+    glBindBuffer(GL_ARRAY_BUFFER, 0); // Débinder le VBO
 }
+
