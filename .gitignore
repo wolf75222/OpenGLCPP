@@ -1,0 +1,42 @@
+# Fichier .gitignore pour OpenGLCPP
+
+# Ignorer les fichiers .DS_Store dans tous les dossiers et sous-dossiers
+**/.DS_Store
+
+# Ignorer le répertoire build
+/build/
+
+# Autres fichiers et répertoires couramment ignorés dans les projets C++/OpenGL
+
+# Fichiers objets
+*.o
+*.obj
+*.a
+*.lib
+
+# Fichiers binaires
+*/a.out
+*.exe
+*.dll
+*.so
+
+# Fichiers de configuration de l'éditeur/IDE
+.vscode/
+*.code-workspace
+*~
+*.swp
+
+# Fichiers temporaires
+temp/
+tmp/
+
+# Fichiers de journalisation
+*.log
+
+# Dossiers de caches système
+__pycache__/
+*.pyc
+
+# Autres fichiers et répertoires qui pourraient être générés
+# en fonction de votre environnement de développement
+# (ajoutez ou supprimez selon vos besoins)
